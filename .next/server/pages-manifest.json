@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/book-appointment": "pages/book-appointment.js",
-  "/appointment-confirmation": "pages/appointment-confirmation.js"
+  "/check-appointment": "pages/check-appointment.js",
+  "/doctor-dashboard": "pages/doctor-dashboard.js",
+  "/": "pages/index.js"
 }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { supabase } from '../lib/supabaseClient';
+import { FaAngleLeft } from "react-icons/fa6";
 
 export default function BookAppointment() {
   const router = useRouter();
@@ -63,15 +64,43 @@ export default function BookAppointment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const randomPatientId = Math.floor(100000000 + Math.random() * 900000000);
+    const randomPatientId = 'APT' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
     setFormData((prev) => ({
       ...prev,
       patientId: randomPatientId,
     }));
+
     try {
-      const { data, error } = await supabase.from('patient_appointments').insert([
-        formData
-      ])
+      let { data, error } = await supabase.from('patient_appointments').insert([
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dateOfBirth: formData.dateOfBirth,
+          gender: formData.gender,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          reasonForVisit: formData.reasonForVisit,
+          symptoms: formData.symptoms,
+          existingConditions: formData.existingConditions,
+          currentMedications: formData.currentMedications,
+          allergies: formData.allergies,
+          previousVisit: formData.previousVisit,
+          appointmentType: formData.appointmentType,
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          doctorPreference: formData.doctorPreference,
+          insuranceProvider: formData.insuranceProvider,
+          insuranceNumber: formData.insuranceNumber,
+          emergencyName: formData.emergencyName,
+          emergencyRelation: formData.emergencyRelation,
+          emergencyPhone: formData.emergencyPhone,
+          specialRequirements: formData.specialRequirements,
+          notes: formData.notes,
+          patientId: randomPatientId
+        }
+      ]).select();
       if(error){
         console.log(error)
       }
@@ -80,6 +109,7 @@ export default function BookAppointment() {
       router.push({
         pathname: '/appointment-confirmation',
         query: {
+          patientId: randomPatientId,
           firstName: formData.firstName,
           lastName: formData.lastName,
           preferredDate: formData.preferredDate,
@@ -96,12 +126,12 @@ export default function BookAppointment() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 py-8 relative">
       <Head>
         <title>Book Appointment - Dr. Smith's Clinic</title>
         <meta name="description" content="Book your appointment" />
       </Head>
-
+    
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Progress Bar */}
         <div className="mb-8">
@@ -112,10 +142,15 @@ export default function BookAppointment() {
                   {item}
                 </div>
                 {item < 4 && (
-                  <div className={`h-1 w-24 ${step > item ? 'bg-blue-600' : 'bg-gray-200'}`} />
+                  <div className={`h-1 w-[12rem] ${step > item ? 'bg-blue-600' : 'bg-gray-200'}`} />
                 )}
               </div>
             ))}
+            <div className="absolute left-9 p-4 rounded-full bg-blue-600 text-white"
+              onClick={router.back}
+            >
+              <FaAngleLeft />
+            </div>
           </div>
           <div className="flex justify-between mt-2">
             <span className="text-sm">Patient Info</span>
@@ -139,7 +174,7 @@ export default function BookAppointment() {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block px-2 py-2 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -150,7 +185,7 @@ export default function BookAppointment() {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -161,7 +196,7 @@ export default function BookAppointment() {
                       name="dateOfBirth"
                       value={formData.dateOfBirth}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -171,7 +206,7 @@ export default function BookAppointment() {
                       name="gender"
                       value={formData.gender}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     >
                       <option value="">Select Gender</option>
@@ -187,7 +222,7 @@ export default function BookAppointment() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -198,7 +233,7 @@ export default function BookAppointment() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -209,7 +244,7 @@ export default function BookAppointment() {
                       value={formData.address}
                       onChange={handleInputChange}
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -229,7 +264,7 @@ export default function BookAppointment() {
                       value={formData.reasonForVisit}
                       onChange={handleInputChange}
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full px-2 py-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                       required
                     />
                   </div>
@@ -240,7 +275,7 @@ export default function BookAppointment() {
                       value={formData.symptoms}
                       onChange={handleInputChange}
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -250,7 +285,7 @@ export default function BookAppointment() {
                       value={formData.existingConditions}
                       onChange={handleInputChange}
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -260,7 +295,7 @@ export default function BookAppointment() {
                       value={formData.currentMedications}
                       onChange={handleInputChange}
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -270,7 +305,7 @@ export default function BookAppointment() {
                       value={formData.allergies}
                       onChange={handleInputChange}
                       rows={2}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                   <div>
@@ -279,7 +314,7 @@ export default function BookAppointment() {
                       name="previousVisit"
                       value={formData.previousVisit}
                       onChange={handleInputChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     >
                       <option value="no">No</option>
                       <option value="yes">Yes</option>

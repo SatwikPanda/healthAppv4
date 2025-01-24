@@ -9,7 +9,7 @@ export default function AppointmentConfirmation() {
 
   // Example appointment details (in a real app, this would come from your backend)
   const appointmentDetails = {
-    appointmentId: 'APT' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+    appointmentId: query.patientId || 'APT123',
     patientName: query.firstName ? `${query.firstName} ${query.lastName}` : 'John Doe',
     date: query.preferredDate || '2025-01-05',
     time: query.preferredTime || 'Morning (9:00 AM - 12:00 PM)',

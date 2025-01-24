@@ -22,15 +22,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/appointment-confirmation": [
+    "/check-appointment": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/appointment-confirmation.js"
+      "static/chunks/pages/check-appointment.js"
     ],
-    "/book-appointment": [
+    "/doctor-dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/book-appointment.js"
+      "static/chunks/pages/doctor-dashboard.js"
     ]
   },
   "ampFirstPages": []
